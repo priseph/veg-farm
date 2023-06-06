@@ -1,5 +1,6 @@
 const fs = require('fs')
 const http = require('http')
+const url = require('url')
 
 //const textme = fs.readFileSync('./txt/input.txt', 'utf-8')
 //console.log(textme)
@@ -13,9 +14,20 @@ fs.readFile('./txt/start.txt', 'utf-8', (err, data) => {
 })
 */
 ////////////////////////////////////////////////////////////////
-//Server
+//SERVER
 const server = http.createServer((req, res) => {
-  res.end('Server worked!')
+  const pathName = req.url
+
+  if (pathName === '/' || pathName === '/overview') {
+    res.end('Home page')
+  } else if (pathName === '/product') {
+    res.end('Product page')
+  } else {
+    res.writeHead(404, {
+      'Content-Type': 'text/html',
+    })
+    res.end('<h1>Wetin you dey find here</h1>')
+  }
 })
 
 server.listen(8000, 'localhost', () => {
