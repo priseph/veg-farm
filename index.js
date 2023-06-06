@@ -15,6 +15,9 @@ fs.readFile('./txt/start.txt', 'utf-8', (err, data) => {
 */
 ////////////////////////////////////////////////////////////////
 //SERVER
+
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, 'utf-8')
+const productData = JSON.parse(data)
 const server = http.createServer((req, res) => {
   const pathName = req.url
 
@@ -22,10 +25,11 @@ const server = http.createServer((req, res) => {
     res.end('Home page')
   } else if (pathName === '/product') {
     res.end('Product page')
+  } else if (pathName === '/api') {
+    res.writeHead(200, { 'Content-Type': 'application/json' })
+    res.end(data)
   } else {
-    res.writeHead(404, {
-      'Content-Type': 'text/html',
-    })
+    res.writeHead(404, { 'Content-Type': 'text/html' })
     res.end('<h1>Wetin you dey find here</h1>')
   }
 })
